@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\GymController;
 use App\Http\Controllers\LoginController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -21,4 +22,12 @@ Route::prefix('/user')->group(function () {
     Route::post('/register', [UserController::class, 'register']);
     Route::post('/login', [UserController::class, 'login']);
     Route::get('/profile', [UserController::class, 'profile'])->middleware('auth:api');
+    Route::put('/', [UserController::class, 'update_user'])->middleware('auth:api');
+});
+
+Route::middleware('auth:api')->prefix('/gym')->group(function () {
+    Route::get('/', [GymController::class, 'get_all']);
+    Route::post('/', [GymController::class, 'store']);
+    Route::put('/{id}', [GymController::class, 'update']);
+    Route::delete('/{id}', [GymController::class, 'destroy']);
 });
