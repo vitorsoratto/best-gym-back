@@ -41,9 +41,8 @@ class UserController extends Controller
 
         $email = $request->email;
         $password = $request->password;
-
         if (!$token = Auth::attempt(['email' => $email, 'password' => $password])) {
-            abort(401);
+            abort(401, 'Unauthorized');
         }
 
         return response()->json([
@@ -56,5 +55,30 @@ class UserController extends Controller
     public function profile(Request $request)
     {
         return response()->json($request->user());
+    }
+
+    public function logout(Request $request)
+    {
+        Auth::logout();
+        return response()->json([
+            'message' => 'Successfully logged out'
+        ]);
+    }
+
+    public function update_user(Request $request)
+    {
+        $user = $request->user();
+
+        $data = $request->all();
+
+        $user->role = $data['role'] ?? $user->role;
+        $user->name = $data['name'] ?? $user->name;
+
+        $user->update();
+
+        return response()->json([
+            'message' => 'Successfully updated user!',
+            'user' => $user
+        ]);
     }
 }
