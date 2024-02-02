@@ -71,7 +71,10 @@ class UserController extends Controller
 
         $data = $request->all();
 
-        $user->role = $data['role'] ?? $user->role;
+        if ($user->role == 'admin') {
+            $user->role = $data['role'] ?? $user->role;
+        }
+
         $user->name = $data['name'] ?? $user->name;
 
         $user->update();
