@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CheckinController;
 use App\Http\Controllers\GymController;
 use App\Http\Controllers\LoginController;
 use Illuminate\Http\Request;
@@ -30,4 +31,9 @@ Route::middleware('auth:api')->prefix('/gym')->group(function () {
     Route::post('/', [GymController::class, 'store']);
     Route::put('/{id}', [GymController::class, 'update']);
     Route::delete('/{id}', [GymController::class, 'destroy']);
+});
+
+Route::middleware('auth:api')->prefix('/checkin')->group(function () {
+    Route::post('/', [CheckinController::class, 'checkin']);
+    Route::get('/', [CheckinController::class, 'checkin_history']);
 });
