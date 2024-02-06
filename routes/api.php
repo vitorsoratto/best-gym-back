@@ -24,6 +24,7 @@ Route::prefix('/user')->group(function () {
     Route::post('/login', [UserController::class, 'login']);
     Route::get('/profile', [UserController::class, 'profile'])->middleware('auth:api');
     Route::put('/', [UserController::class, 'update_user'])->middleware('auth:api');
+    Route::put('/make-admin', [UserController::class, 'make_admin'])->middleware('auth:api');
 });
 
 Route::middleware('auth:api')->prefix('/gym')->group(function () {

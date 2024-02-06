@@ -18,7 +18,7 @@ class CheckinController extends Controller
 
         $data = $request->all();
 
-        $hasCheckin = Checkin::where(['user_id' => $user->id, 'gym_id' => $data['gym_id']])
+        $hasCheckin = Checkin::where(['user_id' => $user->id])
             ->whereDate('created_at', Carbon::today())
             ->first();
         if (isset($hasCheckin) && !empty($hasCheckin)) {
@@ -43,10 +43,19 @@ class CheckinController extends Controller
     {
         $user = $request->user();
 
-        $checkin = Checkin::where(['user_id' => $user->id])->get();
+        $checkins = Checkin::where(['user_id' => $user->id])->get();
 
-        return response()->json([
-            'check-ins' => $checkin,
-        ]);
+        $response = [];
+        if (!empty($checkins)) {
+            foreach ($checkins as $checkin) {
+                $response[] = [
+                    'gym' => $checkin->gym->name,
+                    'created_at' => $checkin->created_at
+                ];
+            }
+        }
+
+
+        return response()->json($response, 200);
     }
 }

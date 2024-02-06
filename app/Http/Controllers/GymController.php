@@ -48,9 +48,9 @@ class GymController extends Controller
     {
         $user = $request->user();
 
-        if ($user->role !== 'admin') {
-            abort(401, 'Unauthorized');
-        }
+        // if ($user->role !== 'admin') {
+        //     abort(401, 'Unauthorized');
+        // }
 
         return response()->json(Gym::all());
     }

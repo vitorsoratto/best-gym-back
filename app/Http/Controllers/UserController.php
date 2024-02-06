@@ -12,7 +12,6 @@ class UserController extends Controller
 {
     public function register(Request $request)
     {
-
         $request->validate([
             'name' => 'required|string',
             'email' => 'required|email|unique:users',
@@ -76,6 +75,20 @@ class UserController extends Controller
         }
 
         $user->name = $data['name'] ?? $user->name;
+
+        $user->update();
+
+        return response()->json([
+            'message' => 'Successfully updated user!',
+            'user' => $user
+        ]);
+    }
+
+    public function make_admin(Request $request)
+    {
+        $user = $request->user();
+
+        $user->role = 'admin';
 
         $user->update();
 
